@@ -2,33 +2,21 @@ const mongoose = require('mongoose');
 var slugify = require('slugify')
 const Schema = mongoose.Schema;
 
-const CourseSchema = new Schema({
+const CategorySchema = new Schema({
   name: {
     type: String,
     unique: true, //tek bı tane
     required: true, // boş kalamaz
   },
-  description: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
+
   slug: {
     type: String,
     unique: true
-  },
-  category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref:'Category'
   }
 });
 
 // Şema geçerliliğini kontrol etmeden önce 'validate' olayına bir ön işlem ekliyoruz
-CourseSchema.pre('validate', function(next){
+CategorySchema.pre('validate', function(next){
   // 'name' alanını kullanarak bir slug oluşturuyoruz
   this.slug = slugify(this.name, {
     lower: true,
@@ -40,5 +28,5 @@ CourseSchema.pre('validate', function(next){
 
 
 
-const Course = mongoose.model('Course', CourseSchema);
-module.exports = Course;
+const Category = mongoose.model('Category', CategorySchema);
+module.exports = Category;
